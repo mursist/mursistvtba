@@ -343,7 +343,7 @@ def recommend_similar_tech_products(df, product_id, top_n=3):
 # Uygulama başlatıldığında çalışacak ana fonksiyon
 if __name__ == "__main__":
     print("Veri analizi modülü başarıyla yüklendi!")
- print("\nÖRNEK 3: Ürün Öneri Motoru Çalışıyor...\n")
+    print("\nÖRNEK 3: Ürün Öneri Motoru Çalışıyor...\n")
     product_df = create_tech_product_data()
     selected_product_id = 103  # Örneğin Akıllı Telefon
     print(f"Seçilen Ürün: {product_df[product_df['product_id'] == selected_product_id]['product_name'].values[0]}")
