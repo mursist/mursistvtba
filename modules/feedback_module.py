@@ -5,6 +5,8 @@ import sqlite3
 import datetime
 import pandas as pd 
 
+from modules.database_utils import append_dataframe
+
 DB_PATH = "mursistva.db"
 
 def init_db():
@@ -47,3 +49,11 @@ def add_feedback_tab():
         df = pd.read_sql_query("SELECT * FROM feedback ORDER BY timestamp DESC", conn)
         st.dataframe(df)
         conn.close()
+# Veri eklemek için
+new_row = pd.DataFrame([{
+    "name": name,
+    "email": email,
+    "message": message,
+    "timestamp": datetime.datetime.now()
+}])
+append_dataframe(new_row, "feedback")
