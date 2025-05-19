@@ -245,7 +245,7 @@ with tab3:
         sentiment_analysis()
 
 # Gelişmiş Analizler Sekmesi
-with tab4:
+with tab6:
     st.header("Gelişmiş Analizler")
     
     sub_tab1, sub_tab2 = st.tabs(["Karlılık Analizi", "Ürün Öneri Motoru"])
