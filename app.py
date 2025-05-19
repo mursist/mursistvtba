@@ -6,7 +6,9 @@ import seaborn as sns
 import veri_analizi as va
 import sys
 import os
-sys.path.append(os.path.dirname(os.path.abspath(__file__)))
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))  # ana dizin
+sys.path.append(os.path.join(os.path.dirname(__file__), 'modules'))  # modules dizini
+
 
 # Modülleri içe aktar
 from modules.dashboard import add_dashboard
