@@ -83,6 +83,12 @@ with tab2:
         sales_file = st.file_uploader("CSV Dosyası Yükleyin (veya örnek veri kullanın)", type="csv")
         if sales_file:
             sales_data = pd.read_csv(sales_file)
+            st.session_state['sales_data'] = sales_data
+
+            # 🔽🔽🔽 Veritabanına kaydet (tablo adı: sales_data)
+            from modules.database_utils import save_dataframe
+            save_dataframe(sales_data, "sales_data", mode='replace')
+            st.success("Satış verisi veritabanına kaydedildi.")
         else:
             if st.button("Örnek Veri Oluştur"):
                 st.info("Örnek veri oluşturuluyor...")
@@ -180,6 +186,7 @@ with tab3:
         customer_file = st.file_uploader("Müşteri CSV Dosyası Yükleyin (veya örnek veri kullanın)", type="csv")
         if customer_file:
             customer_data = pd.read_csv(customer_file)
+            save_dataframe(customer_data, "customer_data", mode='replace')
         else:
             if st.button("Örnek Müşteri Verisi Oluştur"):
                 st.info("Örnek müşteri verisi oluşturuluyor...")
