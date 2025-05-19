@@ -14,6 +14,7 @@ from modules.sales_analysis import seasonal_analysis, price_analysis
 from modules.customer_analysis import rfm_analysis, sentiment_analysis
 from modules.advanced_analytics import profitability_analysis, trend_analysis
 from modules.feedback_module import add_feedback_tab, init_db
+from modules.database_utils import save_dataframe, read_table, init_database
 
 
 st.set_page_config(page_title="Yapay Zeka ile Veri Analizi", layout="wide")
@@ -919,6 +920,7 @@ with tab7:
     add_feedback_tab()
 
 init_db()
+init_database()  # Uygulama başlarken çalışır, tabloyu oluşturur
 
 if __name__ == "__main__":
     # Burada ihtiyaç duyulabilecek başlangıç işlemleri yapılabilir
