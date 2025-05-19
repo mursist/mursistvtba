@@ -1,28 +1,13 @@
 # modules/feedback_module.py
 
 import streamlit as st
-import sqlite3
+import pandas as pd
 import datetime
-import pandas as pd 
-
-from modules.database_utils import append_dataframe
-
-DB_PATH = "mursistva.db"
+from modules.database_utils import append_dataframe, read_table
 
 def init_db():
-    conn = sqlite3.connect(DB_PATH)
-    c = conn.cursor()
-    c.execute('''
-        CREATE TABLE IF NOT EXISTS feedback (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            name TEXT,
-            email TEXT,
-            message TEXT,
-            timestamp DATETIME DEFAULT CURRENT_TIMESTAMP
-        )
-    ''')
-    conn.commit()
-    conn.close()
+    # Gerekirse buraya başka tablo kurulumları eklenebilir
+    pass  # Çünkü database_utils modülü zaten tabloyu oluşturuyor
 
 def add_feedback_tab():
     st.subheader("📝 Geri Bildirim Formu")
@@ -34,26 +19,20 @@ def add_feedback_tab():
 
     if st.button("Gönder"):
         if name and email and message:
-            conn = sqlite3.connect(DB_PATH)
-            c = conn.cursor()
-            c.execute("INSERT INTO feedback (name, email, message) VALUES (?, ?, ?)", 
-                      (name, email, message))
-            conn.commit()
-            conn.close()
+            new_row = pd.DataFrame([{
+                "name": name,
+                "email": email,
+                "message": message,
+                "timestamp": datetime.datetime.now()
+            }])
+            append_dataframe(new_row, "feedback")
             st.success("Geri bildiriminiz kaydedildi. Teşekkür ederiz!")
         else:
             st.error("Lütfen tüm alanları doldurunuz.")
 
     if st.checkbox("Gönderilen Mesajları Göster"):
-        conn = sqlite3.connect(DB_PATH)
-        df = pd.read_sql_query("SELECT * FROM feedback ORDER BY timestamp DESC", conn)
-        st.dataframe(df)
-        conn.close()
-# Veri eklemek için
-new_row = pd.DataFrame([{
-    "name": name,
-    "email": email,
-    "message": message,
-    "timestamp": datetime.datetime.now()
-}])
-append_dataframe(new_row, "feedback")
+        try:
+            df = read_table("feedback")
+            st.dataframe(df)
+        except Exception as e:
+            st.warning(f"Veri alınamadı: {e}")
