@@ -145,7 +145,15 @@ with tab2:
                     
                     # ARIMA tahmin sonuçları
                     st.subheader("ARIMA Tahmin Sonuçları")
-                    
+                    # ARIMA tahmin sonucunu veritabanına kaydet
+                    forecast_df = pd.DataFrame({
+                    "date": forecast.index,
+                    "predicted_sales": forecast.values
+                    })
+
+from modules.database_utils import save_dataframe
+save_dataframe(forecast_df, "arima_forecast", mode='replace')
+st.success("ARIMA tahmin verisi veritabanına kaydedildi.")
                     fig, ax = plt.subplots(figsize=(12, 6))
                     # Son 90 gün + tahmin
                     ax.plot(sales_data.set_index('date')['sales'][-90:].index, 
